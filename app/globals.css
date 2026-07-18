@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  color-scheme: dark;
+}
+
+/* Leaflet an die Tappy-Optik anpassen */
+.leaflet-container {
+  background: #14100d;
+  font-family: var(--font-body);
+}
+
+.leaflet-popup-content-wrapper {
+  background: #2a211b;
+  color: #ede6d6;
+  border-radius: 10px;
+}
+
+.leaflet-popup-tip {
+  background: #2a211b;
+}
+
+/* Signatur-Element: Kneipen-Marker als "Bierdeckel" */
+.tappy-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #c89b3c;
+  color: #14100d;
+  font-weight: 700;
+  font-size: 13px;
+  border: 2px solid #ede6d6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+:focus-visible {
+  outline: 2px solid #d9b166;
+  outline-offset: 2px;
+}
