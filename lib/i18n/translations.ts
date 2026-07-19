@@ -97,6 +97,7 @@ export const translations = {
       keineErgebnisse: "Keine Ergebnisse gefunden.",
       suchfehler: "Suche fehlgeschlagen, bitte später erneut versuchen.",
       standortVerwenden: "Meinen aktuellen Standort verwenden",
+      adresseWirdGeladen: "Adresse wird ermittelt …",
       hinweis:
         "Tipp: Du kannst den Pin auf der Karte auch direkt anklicken oder verschieben.",
     },
@@ -109,6 +110,8 @@ export const translations = {
       samstag: "Samstag",
       sonntag: "Sonntag",
       geschlossen: "Geschlossen",
+      geoeffnet: "Geöffnet",
+      fuerAlleTageUebernehmen: "Für alle Tage übernehmen",
     },
     optionen: {
       preisklasse: { $: "$ (günstig)", "$$": "$$ (mittel)", "$$$": "$$$ (gehoben)" },
@@ -273,6 +276,7 @@ export const translations = {
       keineErgebnisse: "No results found.",
       suchfehler: "Search failed, please try again later.",
       standortVerwenden: "Use my current location",
+      adresseWirdGeladen: "Looking up address …",
       hinweis: "Tip: you can also click or drag the pin directly on the map.",
     },
     oeffnungszeiten: {
@@ -284,6 +288,8 @@ export const translations = {
       samstag: "Saturday",
       sonntag: "Sunday",
       geschlossen: "Closed",
+      geoeffnet: "Open",
+      fuerAlleTageUebernehmen: "Apply to all days",
     },
     optionen: {
       preisklasse: { $: "$ (budget)", "$$": "$$ (mid-range)", "$$$": "$$$ (upscale)" },

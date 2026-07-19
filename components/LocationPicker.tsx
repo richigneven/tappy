@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -26,6 +26,18 @@ type NominatimResult = {
   lon: string;
 };
 
+async function reverseGeocode(lat: number, lng: number): Promise<string | null> {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+    );
+    const data = await res.json();
+    return data?.display_name ?? null;
+  } catch {
+    return null;
+  }
+}
+
 function KlickHandler({
   onSelect,
 }: {
@@ -39,11 +51,17 @@ function KlickHandler({
   return null;
 }
 
+// Zentriert die Karte NUR, wenn sich "position" wirklich ändert (z.B. nach
+// einer Suche) - nicht bei jedem Render, sonst "kämpft" die Karte gegen
+// manuelle Klicks/Verschieben des Pins.
 function MapZentrieren({ position }: { position: [number, number] | null }) {
   const map = useMap();
-  if (position) {
-    map.setView(position, 16);
-  }
+  useEffect(() => {
+    if (position) {
+      map.setView(position, 16);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [position?.[0], position?.[1]]);
   return null;
 }
 
@@ -51,15 +69,18 @@ export default function LocationPicker({
   lat,
   lng,
   onChange,
+  onAdresseChange,
 }: {
   lat: number | null;
   lng: number | null;
   onChange: (lat: number, lng: number) => void;
+  onAdresseChange?: (adresse: string) => void;
 }) {
   const { dict } = useTranslation();
   const [suchbegriff, setSuchbegriff] = useState("");
   const [ergebnisse, setErgebnisse] = useState<NominatimResult[]>([]);
   const [suchtLaeuft, setSuchtLaeuft] = useState(false);
+  const [ladeAdresse, setLadeAdresse] = useState(false);
   const [fehler, setFehler] = useState<string | null>(null);
 
   const position: [number, number] | null =
@@ -76,7 +97,7 @@ export default function LocationPicker({
 
     try {
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${encodeURIComponent(
+        `https://nominatim.openstreetmap.org/search?format=json&limit=5&addressdetails=1&q=${encodeURIComponent(
           suchbegriff
         )}`
       );
@@ -99,6 +120,22 @@ export default function LocationPicker({
     setZentrum([neueLat, neueLng]);
     setErgebnisse([]);
     setSuchbegriff(r.display_name);
+    onAdresseChange?.(r.display_name);
+  }
+
+  // Nach Klick/Drag auf der Karte: Adresse automatisch per Reverse-Geocoding
+  // nachschlagen und ins Adressfeld übernehmen.
+  async function positionAendern(neueLat: number, neueLng: number) {
+    onChange(neueLat, neueLng);
+    if (onAdresseChange) {
+      setLadeAdresse(true);
+      const adresse = await reverseGeocode(neueLat, neueLng);
+      setLadeAdresse(false);
+      if (adresse) {
+        onAdresseChange(adresse);
+        setSuchbegriff(adresse);
+      }
+    }
   }
 
   const meinStandort = useCallback(() => {
@@ -106,10 +143,11 @@ export default function LocationPicker({
     navigator.geolocation.getCurrentPosition((pos) => {
       const neueLat = pos.coords.latitude;
       const neueLng = pos.coords.longitude;
-      onChange(neueLat, neueLng);
       setZentrum([neueLat, neueLng]);
+      positionAendern(neueLat, neueLng);
     });
-  }, [onChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex flex-col gap-2">
@@ -146,6 +184,9 @@ export default function LocationPicker({
       )}
 
       {fehler && <p className="text-warn text-xs">{fehler}</p>}
+      {ladeAdresse && (
+        <p className="text-xs opacity-60">{dict.locationPicker.adresseWirdGeladen}</p>
+      )}
 
       <button
         type="button"
@@ -166,7 +207,7 @@ export default function LocationPicker({
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <KlickHandler onSelect={onChange} />
+          <KlickHandler onSelect={positionAendern} />
           <MapZentrieren position={zentrum} />
           {position && (
             <Marker
@@ -177,7 +218,7 @@ export default function LocationPicker({
                 dragend: (e) => {
                   const marker = e.target;
                   const pos = marker.getLatLng();
-                  onChange(pos.lat, pos.lng);
+                  positionAendern(pos.lat, pos.lng);
                 },
               }}
             />

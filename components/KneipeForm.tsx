@@ -248,6 +248,7 @@ export default function KneipeForm({
             setLat(neuLat);
             setLng(neuLng);
           }}
+          onAdresseChange={setAdresse}
         />
       </div>
 

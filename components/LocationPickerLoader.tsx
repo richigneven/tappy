@@ -15,6 +15,7 @@ export default function LocationPickerLoader(props: {
   lat: number | null;
   lng: number | null;
   onChange: (lat: number, lng: number) => void;
+  onAdresseChange?: (adresse: string) => void;
 }) {
   return <LocationPicker {...props} />;
 }
