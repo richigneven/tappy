@@ -18,14 +18,14 @@ export default function RegisterPage() {
     setLoading(true);
     setError(null);
 
-   const { error } = await supabase.auth.signUp({
+  const { error } = await supabase.auth.signUp({
   email,
   password,
   options: {
     data: { display_name: displayName },
     emailRedirectTo: `${window.location.origin}/auth/callback`,
-  },
-});
+   },
+  });
 
     setLoading(false);
 
