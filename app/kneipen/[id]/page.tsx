@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import RatingForm from "@/components/RatingForm";
 import RouteButton from "@/components/RouteButton";
 import BeerMugIcon from "@/components/BeerMugIcon";
+import KneipenFotos from "@/components/KneipenFotos";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getServerDictionary } from "@/lib/i18n/server";
@@ -26,7 +27,7 @@ export default async function KneipeDetailPage({
 
   const { data: kneipe } = await supabase
     .from("kneipen")
-    .select("*")
+    .select("*, profiles(display_name, profil_oeffentlich)")
     .eq("id", params.id)
     .single();
 
@@ -37,6 +38,18 @@ export default async function KneipeDetailPage({
     .select("*, profiles(display_name, avatar_url, profil_oeffentlich)")
     .eq("kneipe_id", params.id)
     .order("created_at", { ascending: false });
+
+  const { data: fotoZeilen } = await supabase
+    .from("kneipen_fotos")
+    .select("id, storage_path")
+    .eq("kneipe_id", params.id)
+    .order("created_at", { ascending: false });
+
+  const fotos = (fotoZeilen ?? []).map((f) => ({
+    id: f.id,
+    url: supabase.storage.from("kneipen-fotos").getPublicUrl(f.storage_path)
+      .data.publicUrl,
+  }));
 
   const {
     data: { user },
@@ -70,7 +83,23 @@ export default async function KneipeDetailPage({
         )}
       </div>
       {kneipe.adresse && (
-        <p className="text-sm opacity-70 mb-3">{kneipe.adresse}</p>
+        <p className="text-sm opacity-70 mb-1">{kneipe.adresse}</p>
+      )}
+
+      {kneipe.erstellt_von && (
+        <p className="text-xs opacity-60 mb-3">
+          {dict.kneipeDetailExtra.eingetragenVon}:{" "}
+          {kneipe.profiles?.profil_oeffentlich ? (
+            <Link
+              href={`/nutzer/${kneipe.erstellt_von}`}
+              className="text-brass-400 underline"
+            >
+              {kneipe.profiles?.display_name ?? dict.kneipeDetail.anonym}
+            </Link>
+          ) : (
+            dict.kneipeDetail.anonym
+          )}
+        </p>
       )}
 
       <div className="flex flex-wrap items-center gap-2 mb-4">
@@ -106,6 +135,13 @@ export default async function KneipeDetailPage({
       {kneipe.beschreibung && (
         <p className="mb-8 opacity-90">{kneipe.beschreibung}</p>
       )}
+
+      <div className="mb-8">
+        <h2 className="font-display font-bold text-xl mb-4">
+          {dict.kneipeDetailExtra.fotosLabel}
+        </h2>
+        <KneipenFotos kneipeId={kneipe.id} fotos={fotos} eingeloggt={!!user} />
+      </div>
 
       <div className="grid sm:grid-cols-2 gap-6 mb-8 text-sm">
         {kneipe.getraenkearten?.length > 0 && (
