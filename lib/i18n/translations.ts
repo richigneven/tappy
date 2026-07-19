@@ -184,6 +184,16 @@ export const translations = {
       snacksVorhanden: "Snacks vorhanden",
       entertainment: "Entertainment",
       geschlossenHeute: "Heute geschlossen",
+      eingetragenVon: "Eingetragen von",
+      fotosLabel: "Fotos",
+      fotoHochladen: "Foto hochladen",
+      fotoWirdHochgeladen: "Wird hochgeladen …",
+      keineFotos: "Noch keine Fotos.",
+    },
+    nutzerProfil: {
+      privat: "Dieses Profil ist privat.",
+      eingetrageneKneipen: "Eingetragene Kneipen",
+      keineKneipen: "Noch keine Kneipen eingetragen.",
     },
   },
   en: {
@@ -366,6 +376,16 @@ export const translations = {
       snacksVorhanden: "Snacks available",
       entertainment: "Entertainment",
       geschlossenHeute: "Closed today",
+      eingetragenVon: "Added by",
+      fotosLabel: "Photos",
+      fotoHochladen: "Upload photo",
+      fotoWirdHochgeladen: "Uploading …",
+      keineFotos: "No photos yet.",
+    },
+    nutzerProfil: {
+      privat: "This profile is private.",
+      eingetrageneKneipen: "Bars added",
+      keineKneipen: "No bars added yet.",
     },
   },
 } as const;
