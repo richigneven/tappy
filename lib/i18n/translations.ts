@@ -65,6 +65,10 @@ export const translations = {
       buttonLoading: "Wird gespeichert …",
       fehlerKeineAuswahl: "Bitte wähl eine Bewertung von 1 bis 5 Zapfhähnen.",
       fehlerNichtAngemeldet: "Du musst angemeldet sein.",
+      positiveAspekteLabel: "Was war gut? (bis zu 3 Stichpunkte)",
+      negativeAspekteLabel: "Was war nicht so gut? (bis zu 3 Stichpunkte)",
+      aspektPlaceholder: "Stichwort eingeben, dann Enter",
+      aspektEntfernen: "Entfernen",
     },
     profil: {
       titel: "Dein Profil",
@@ -244,6 +248,10 @@ export const translations = {
       buttonLoading: "Saving …",
       fehlerKeineAuswahl: "Please choose a rating from 1 to 5 taps.",
       fehlerNichtAngemeldet: "You need to be signed in.",
+      positiveAspekteLabel: "What was good? (up to 3 keywords)",
+      negativeAspekteLabel: "What wasn't so good? (up to 3 keywords)",
+      aspektPlaceholder: "Type a keyword, then press Enter",
+      aspektEntfernen: "Remove",
     },
     profil: {
       titel: "Your profile",
