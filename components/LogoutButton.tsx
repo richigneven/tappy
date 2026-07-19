@@ -2,10 +2,12 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "@/lib/i18n/LocaleProvider";
 
 export default function LogoutButton() {
   const router = useRouter();
   const supabase = createClient();
+  const { dict } = useTranslation();
 
   async function handleLogout() {
     await supabase.auth.signOut();
@@ -18,7 +20,7 @@ export default function LogoutButton() {
       onClick={handleLogout}
       className="hover:text-warn transition-colors"
     >
-      Abmelden
+      {dict.nav.abmelden}
     </button>
   );
 }

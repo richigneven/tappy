@@ -1,0 +1,188 @@
+export type Locale = "de" | "en";
+
+export const LOCALE_COOKIE = "tappy_locale";
+
+export const translations = {
+  de: {
+    nav: {
+      karte: "Karte",
+      kneipeEintragen: "Kneipe eintragen",
+      profil: "Profil",
+      anmelden: "Anmelden",
+      registrieren: "Registrieren",
+      abmelden: "Abmelden",
+    },
+    login: {
+      titel: "Anmelden",
+      email: "E-Mail",
+      passwort: "Passwort",
+      button: "Anmelden",
+      buttonLoading: "Wird geprüft …",
+      falscheDaten: "E-Mail oder Passwort ist falsch.",
+      keinKonto: "Noch kein Konto?",
+      jetztRegistrieren: "Jetzt registrieren",
+    },
+    register: {
+      titel: "Registrieren",
+      anzeigename: "Anzeigename",
+      email: "E-Mail",
+      passwort: "Passwort",
+      button: "Konto erstellen",
+      buttonLoading: "Wird angelegt …",
+      fastGeschafft: "Fast geschafft",
+      bestaetigungstext:
+        "Bitte bestätige deine E-Mail-Adresse über den Link, den wir dir gerade geschickt haben. Danach kannst du dich anmelden.",
+      schonRegistriert: "Schon registriert?",
+    },
+    kneipeNeu: {
+      titel: "Kneipe eintragen",
+      beschreibungstext:
+        "Trag eine Kneipe ein, die noch fehlt. Andere Nutzer können sie danach finden und bewerten.",
+      name: "Name",
+      adresse: "Adresse",
+      adressePlaceholder: "Straße, PLZ, Stadt",
+      lat: "Breitengrad (lat)",
+      lng: "Längengrad (lng)",
+      standortVerwenden: "Meinen aktuellen Standort verwenden",
+      beschreibung: "Beschreibung",
+      button: "Kneipe speichern",
+      buttonLoading: "Wird gespeichert …",
+    },
+    kneipeDetail: {
+      keineBewertungen: "Noch keine Bewertungen",
+      bewertungEinzahl: "Bewertung",
+      bewertungMehrzahl: "Bewertungen",
+      bewertenTitel: "Bewerten",
+      bitteAnmelden: "Melde dich an, um diese Kneipe zu bewerten.",
+      bewertungenTitel: "Bewertungen",
+      ersteBewertung: "Sei die erste Person, die diese Kneipe bewertet.",
+      anonym: "Anonym",
+    },
+    ratingForm: {
+      kommentarPlaceholder: "Was macht diese Kneipe aus? (optional)",
+      buttonNeu: "Bewertung abgeben",
+      buttonAktualisieren: "Bewertung aktualisieren",
+      buttonLoading: "Wird gespeichert …",
+      fehlerKeineAuswahl: "Bitte wähl eine Bewertung von 1 bis 5 Zapfhähnen.",
+      fehlerNichtAngemeldet: "Du musst angemeldet sein.",
+    },
+    profil: {
+      titel: "Dein Profil",
+      beschreibungstext:
+        'Diese Einstellungen betreffen nur dich – dein Profilbild und dein Anzeigename werden nur sichtbar, wenn du dein Profil auf "öffentlich" stellst.',
+      angemeldetAls: "Angemeldet als",
+      profilbildAendern: "Profilbild ändern",
+      anzeigename: "Anzeigename",
+      getraenkeVorliebe: "Deine Getränke-Vorliebe",
+      bier: "Bier",
+      cocktail: "Cocktail",
+      schnaps: "Schnaps",
+      alkoholfrei: "Alkoholfrei",
+      oeffentlichTitel: "Profil öffentlich",
+      oeffentlichText:
+        'Wenn aktiv, sehen andere Nutzer deinen Anzeigenamen und dein Profilbild bei deinen Bewertungen. Wenn deaktiviert, erscheinst du dort als "Anonym".',
+      gespeichert: "Profil gespeichert.",
+      button: "Speichern",
+      buttonLoading: "Wird gespeichert …",
+    },
+    map: {
+      detailsAnsehen: "Details ansehen",
+      keineBewertungen: "Noch keine Bewertungen",
+      ladeText: "Karte wird gezapft …",
+      ladefehler: "Kneipen konnten nicht geladen werden:",
+    },
+  },
+  en: {
+    nav: {
+      karte: "Map",
+      kneipeEintragen: "Add a bar",
+      profil: "Profile",
+      anmelden: "Sign in",
+      registrieren: "Sign up",
+      abmelden: "Sign out",
+    },
+    login: {
+      titel: "Sign in",
+      email: "Email",
+      passwort: "Password",
+      button: "Sign in",
+      buttonLoading: "Checking …",
+      falscheDaten: "Email or password is incorrect.",
+      keinKonto: "Don't have an account yet?",
+      jetztRegistrieren: "Sign up now",
+    },
+    register: {
+      titel: "Sign up",
+      anzeigename: "Display name",
+      email: "Email",
+      passwort: "Password",
+      button: "Create account",
+      buttonLoading: "Creating …",
+      fastGeschafft: "Almost there",
+      bestaetigungstext:
+        "Please confirm your email address using the link we just sent you. After that you can sign in.",
+      schonRegistriert: "Already have an account?",
+    },
+    kneipeNeu: {
+      titel: "Add a bar",
+      beschreibungstext:
+        "Add a bar that's still missing. Other users will then be able to find and rate it.",
+      name: "Name",
+      adresse: "Address",
+      adressePlaceholder: "Street, postcode, city",
+      lat: "Latitude (lat)",
+      lng: "Longitude (lng)",
+      standortVerwenden: "Use my current location",
+      beschreibung: "Description",
+      button: "Save bar",
+      buttonLoading: "Saving …",
+    },
+    kneipeDetail: {
+      keineBewertungen: "No ratings yet",
+      bewertungEinzahl: "rating",
+      bewertungMehrzahl: "ratings",
+      bewertenTitel: "Rate this bar",
+      bitteAnmelden: "Sign in to rate this bar.",
+      bewertungenTitel: "Ratings",
+      ersteBewertung: "Be the first to rate this bar.",
+      anonym: "Anonymous",
+    },
+    ratingForm: {
+      kommentarPlaceholder: "What makes this bar special? (optional)",
+      buttonNeu: "Submit rating",
+      buttonAktualisieren: "Update rating",
+      buttonLoading: "Saving …",
+      fehlerKeineAuswahl: "Please choose a rating from 1 to 5 taps.",
+      fehlerNichtAngemeldet: "You need to be signed in.",
+    },
+    profil: {
+      titel: "Your profile",
+      beschreibungstext:
+        'These settings only affect you – your profile picture and display name are only visible to others if your profile is set to "public".',
+      angemeldetAls: "Signed in as",
+      profilbildAendern: "Change profile picture",
+      anzeigename: "Display name",
+      getraenkeVorliebe: "Your drink preference",
+      bier: "Beer",
+      cocktail: "Cocktail",
+      schnaps: "Spirits",
+      alkoholfrei: "Non-alcoholic",
+      oeffentlichTitel: "Public profile",
+      oeffentlichText:
+        'When enabled, other users see your display name and profile picture next to your ratings. When disabled, you appear as "Anonymous".',
+      gespeichert: "Profile saved.",
+      button: "Save",
+      buttonLoading: "Saving …",
+    },
+    map: {
+      detailsAnsehen: "View details",
+      keineBewertungen: "No ratings yet",
+      ladeText: "Tapping the map …",
+      ladefehler: "Couldn't load bars:",
+    },
+  },
+} as const;
+
+export function getDictionary(locale: Locale) {
+  return translations[locale];
+}

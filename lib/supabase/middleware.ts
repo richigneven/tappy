@@ -31,6 +31,7 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
+  // Wichtig: ruft getUser() auf, damit die Session bei Bedarf erneuert wird
   await supabase.auth.getUser();
 
   return response;

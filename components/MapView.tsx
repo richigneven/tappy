@@ -5,6 +5,7 @@ import L from "leaflet";
 import Link from "next/link";
 import { renderToStaticMarkup } from "react-dom/server";
 import type { Kneipe } from "@/lib/types";
+import { useTranslation } from "@/lib/i18n/LocaleProvider";
 
 // Standardmäßig Berlin - später durch Geolocation des Nutzers ersetzbar
 const DEFAULT_CENTER: [number, number] = [52.52, 13.405];
@@ -23,6 +24,8 @@ function tappyIcon(rating?: number) {
 }
 
 export default function MapView({ kneipen }: { kneipen: Kneipe[] }) {
+  const { dict } = useTranslation();
+
   return (
     <MapContainer
       center={DEFAULT_CENTER}
@@ -51,14 +54,14 @@ export default function MapView({ kneipen }: { kneipen: Kneipe[] }) {
               {kneipe.anzahl_bewertungen
                 ? `${kneipe.durchschnitts_rating?.toFixed(1)} ★ (${
                     kneipe.anzahl_bewertungen
-                  } Bewertungen)`
-                : "Noch keine Bewertungen"}
+                  })`
+                : dict.map.keineBewertungen}
             </div>
             <Link
               href={`/kneipen/${kneipe.id}`}
               className="text-brass-500 underline text-xs"
             >
-              Details ansehen
+              {dict.map.detailsAnsehen}
             </Link>
           </Popup>
         </Marker>

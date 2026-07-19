@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslation } from "@/lib/i18n/LocaleProvider";
 
 export default function RatingForm({
   kneipeId,
@@ -13,6 +14,7 @@ export default function RatingForm({
 }) {
   const router = useRouter();
   const supabase = createClient();
+  const { dict } = useTranslation();
 
   const [rating, setRating] = useState(bestehendeBewertung?.rating ?? 0);
   const [kommentar, setKommentar] = useState(
@@ -24,7 +26,7 @@ export default function RatingForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (rating === 0) {
-      setError("Bitte wähl eine Bewertung von 1 bis 5 Zapfhähnen.");
+      setError(dict.ratingForm.fehlerKeineAuswahl);
       return;
     }
     setLoading(true);
@@ -35,7 +37,7 @@ export default function RatingForm({
     } = await supabase.auth.getUser();
 
     if (!user) {
-      setError("Du musst angemeldet sein.");
+      setError(dict.ratingForm.fehlerNichtAngemeldet);
       setLoading(false);
       return;
     }
@@ -76,7 +78,7 @@ export default function RatingForm({
                 ? "bg-brass-500 border-brass-500 text-bar-950"
                 : "bg-transparent border-bar-700 text-cream/60 hover:border-brass-500"
             }`}
-            title={`${wert} von 5`}
+            title={`${wert} / 5`}
           >
             {wert}
           </button>
@@ -87,7 +89,7 @@ export default function RatingForm({
         value={kommentar}
         onChange={(e) => setKommentar(e.target.value)}
         rows={2}
-        placeholder="Was macht diese Kneipe aus? (optional)"
+        placeholder={dict.ratingForm.kommentarPlaceholder}
         className="bg-bar-800 border border-bar-700 rounded-lg px-3 py-2 text-sm focus-visible:border-brass-500"
       />
 
@@ -99,10 +101,10 @@ export default function RatingForm({
         className="self-start bg-brass-500 text-bar-950 font-semibold rounded-full px-4 py-1.5 text-sm hover:bg-brass-400 transition-colors disabled:opacity-50"
       >
         {loading
-          ? "Wird gespeichert …"
+          ? dict.ratingForm.buttonLoading
           : bestehendeBewertung
-          ? "Bewertung aktualisieren"
-          : "Bewertung abgeben"}
+          ? dict.ratingForm.buttonAktualisieren
+          : dict.ratingForm.buttonNeu}
       </button>
     </form>
   );

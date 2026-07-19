@@ -4,10 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslation } from "@/lib/i18n/LocaleProvider";
 
 export default function LoginPage() {
   const router = useRouter();
   const supabase = createClient();
+  const { dict } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +30,7 @@ export default function LoginPage() {
     if (error) {
       setError(
         error.message === "Invalid login credentials"
-          ? "E-Mail oder Passwort ist falsch."
+          ? dict.login.falscheDaten
           : error.message
       );
       return;
@@ -41,11 +43,11 @@ export default function LoginPage() {
   return (
     <div className="max-w-sm mx-auto px-4 py-16">
       <h1 className="font-display font-bold text-3xl text-brass-500 mb-6">
-        Anmelden
+        {dict.login.titel}
       </h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label className="flex flex-col gap-1 text-sm">
-          E-Mail
+          {dict.login.email}
           <input
             type="email"
             required
@@ -55,7 +57,7 @@ export default function LoginPage() {
           />
         </label>
         <label className="flex flex-col gap-1 text-sm">
-          Passwort
+          {dict.login.passwort}
           <input
             type="password"
             required
@@ -72,14 +74,14 @@ export default function LoginPage() {
           disabled={loading}
           className="bg-brass-500 text-bar-950 font-semibold rounded-full py-2 mt-2 hover:bg-brass-400 transition-colors disabled:opacity-50"
         >
-          {loading ? "Wird geprüft …" : "Anmelden"}
+          {loading ? dict.login.buttonLoading : dict.login.button}
         </button>
       </form>
 
       <p className="text-sm mt-6 opacity-80">
-        Noch kein Konto?{" "}
+        {dict.login.keinKonto}{" "}
         <Link href="/register" className="text-brass-500 underline">
-          Jetzt registrieren
+          {dict.login.jetztRegistrieren}
         </Link>
       </p>
     </div>

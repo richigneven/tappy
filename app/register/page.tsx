@@ -3,9 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslation } from "@/lib/i18n/LocaleProvider";
 
 export default function RegisterPage() {
   const supabase = createClient();
+  const { dict } = useTranslation();
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,14 +20,14 @@ export default function RegisterPage() {
     setLoading(true);
     setError(null);
 
-  const { error } = await supabase.auth.signUp({
-  email,
-  password,
-  options: {
-    data: { display_name: displayName },
-    emailRedirectTo: `${window.location.origin}/auth/callback`,
-   },
-  });
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { display_name: displayName },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
 
     setLoading(false);
 
@@ -41,12 +43,9 @@ export default function RegisterPage() {
     return (
       <div className="max-w-sm mx-auto px-4 py-16 text-center">
         <h1 className="font-display font-bold text-2xl text-brass-500 mb-3">
-          Fast geschafft
+          {dict.register.fastGeschafft}
         </h1>
-        <p className="opacity-90">
-          Bitte bestätige deine E-Mail-Adresse über den Link, den wir dir
-          gerade geschickt haben. Danach kannst du dich anmelden.
-        </p>
+        <p className="opacity-90">{dict.register.bestaetigungstext}</p>
       </div>
     );
   }
@@ -54,11 +53,11 @@ export default function RegisterPage() {
   return (
     <div className="max-w-sm mx-auto px-4 py-16">
       <h1 className="font-display font-bold text-3xl text-brass-500 mb-6">
-        Registrieren
+        {dict.register.titel}
       </h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label className="flex flex-col gap-1 text-sm">
-          Anzeigename
+          {dict.register.anzeigename}
           <input
             type="text"
             required
@@ -68,7 +67,7 @@ export default function RegisterPage() {
           />
         </label>
         <label className="flex flex-col gap-1 text-sm">
-          E-Mail
+          {dict.register.email}
           <input
             type="email"
             required
@@ -78,7 +77,7 @@ export default function RegisterPage() {
           />
         </label>
         <label className="flex flex-col gap-1 text-sm">
-          Passwort
+          {dict.register.passwort}
           <input
             type="password"
             required
@@ -96,14 +95,14 @@ export default function RegisterPage() {
           disabled={loading}
           className="bg-brass-500 text-bar-950 font-semibold rounded-full py-2 mt-2 hover:bg-brass-400 transition-colors disabled:opacity-50"
         >
-          {loading ? "Wird angelegt …" : "Konto erstellen"}
+          {loading ? dict.register.buttonLoading : dict.register.button}
         </button>
       </form>
 
       <p className="text-sm mt-6 opacity-80">
-        Schon registriert?{" "}
+        {dict.register.schonRegistriert}{" "}
         <Link href="/login" className="text-brass-500 underline">
-          Anmelden
+          {dict.login.titel}
         </Link>
       </p>
     </div>
