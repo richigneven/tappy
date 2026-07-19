@@ -1,9 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import MapLoader from "@/components/MapLoader";
 import type { Kneipe } from "@/lib/types";
+import { getServerDictionary } from "@/lib/i18n/server";
 
 export default async function HomePage() {
   const supabase = createClient();
+  const dict = getServerDictionary();
 
   // Kneipen + zugehörige Bewertungen in einem Rutsch laden
   const { data, error } = await supabase
@@ -28,7 +30,7 @@ export default async function HomePage() {
     <div className="h-[calc(100vh-57px)] relative">
       {error && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-warn text-cream px-4 py-2 rounded-lg text-sm">
-          Kneipen konnten nicht geladen werden: {error.message}
+          {dict.map.ladefehler} {error.message}
         </div>
       )}
       <MapLoader kneipen={kneipen} />

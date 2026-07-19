@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslation } from "@/lib/i18n/LocaleProvider";
 
 export default function NeueKneipePage() {
   const router = useRouter();
   const supabase = createClient();
+  const { dict } = useTranslation();
 
   const [name, setName] = useState("");
   const [adresse, setAdresse] = useState("");
@@ -34,7 +36,7 @@ export default function NeueKneipePage() {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      setError("Du musst angemeldet sein, um eine Kneipe einzutragen.");
+      setError(dict.ratingForm.fehlerNichtAngemeldet);
       setLoading(false);
       return;
     }
@@ -62,16 +64,15 @@ export default function NeueKneipePage() {
   return (
     <div className="max-w-lg mx-auto px-4 py-12">
       <h1 className="font-display font-bold text-3xl text-brass-500 mb-2">
-        Kneipe eintragen
+        {dict.kneipeNeu.titel}
       </h1>
       <p className="text-sm opacity-80 mb-6">
-        Trag eine Kneipe ein, die noch fehlt. Andere Nutzer können sie danach
-        finden und bewerten.
+        {dict.kneipeNeu.beschreibungstext}
       </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label className="flex flex-col gap-1 text-sm">
-          Name
+          {dict.kneipeNeu.name}
           <input
             required
             value={name}
@@ -81,18 +82,18 @@ export default function NeueKneipePage() {
         </label>
 
         <label className="flex flex-col gap-1 text-sm">
-          Adresse
+          {dict.kneipeNeu.adresse}
           <input
             value={adresse}
             onChange={(e) => setAdresse(e.target.value)}
-            placeholder="Straße, PLZ, Stadt"
+            placeholder={dict.kneipeNeu.adressePlaceholder}
             className="bg-bar-800 border border-bar-700 rounded-lg px-3 py-2 focus-visible:border-brass-500"
           />
         </label>
 
         <div className="grid grid-cols-2 gap-3">
           <label className="flex flex-col gap-1 text-sm">
-            Breitengrad (lat)
+            {dict.kneipeNeu.lat}
             <input
               required
               value={lat}
@@ -102,7 +103,7 @@ export default function NeueKneipePage() {
             />
           </label>
           <label className="flex flex-col gap-1 text-sm">
-            Längengrad (lng)
+            {dict.kneipeNeu.lng}
             <input
               required
               value={lng}
@@ -118,11 +119,11 @@ export default function NeueKneipePage() {
           onClick={useMyLocation}
           className="text-xs text-brass-400 underline text-left"
         >
-          Meinen aktuellen Standort verwenden
+          {dict.kneipeNeu.standortVerwenden}
         </button>
 
         <label className="flex flex-col gap-1 text-sm">
-          Beschreibung
+          {dict.kneipeNeu.beschreibung}
           <textarea
             value={beschreibung}
             onChange={(e) => setBeschreibung(e.target.value)}
@@ -138,7 +139,7 @@ export default function NeueKneipePage() {
           disabled={loading}
           className="bg-brass-500 text-bar-950 font-semibold rounded-full py-2 mt-2 hover:bg-brass-400 transition-colors disabled:opacity-50"
         >
-          {loading ? "Wird gespeichert …" : "Kneipe speichern"}
+          {loading ? dict.kneipeNeu.buttonLoading : dict.kneipeNeu.button}
         </button>
       </form>
     </div>

@@ -88,3 +88,23 @@ supabase/schema.sql       Datenbank-Schema + Sicherheitsregeln
 - Auszahlungslogik für eingetragene Kneipen (separates Modul, rechtliche
   Prüfung vorher empfohlen: KYC, Steuerpflichten der Empfänger)
 - Suche/Filter (z. B. nach Öffnungszeiten, Getränkeauswahl)
+
+## Profil-Feature (Avatar, Getränke-Vorliebe, Sichtbarkeit)
+
+Zusätzliches Setup, damit `/profil` funktioniert:
+
+1. **Migration einspielen**: Inhalt von `supabase/migration_profil.sql` im
+   Supabase SQL Editor ausführen.
+2. **Storage Bucket anlegen**: Supabase Dashboard → **Storage** → **New
+   bucket** → Name exakt `avatars` → Häkchen bei **Public bucket** setzen →
+   erstellen.
+3. **Danach erst** den Storage-Policy-Teil aus `migration_profil.sql`
+   ausführen (steht in derselben Datei, aber der Bucket muss zuerst
+   existieren, sonst schlagen die Policies fehl).
+
+⚠️ **Bekannte Einschränkung**: Die Spalte `payout_email` in `profiles` ist
+aktuell auch für andere Nutzer lesbar, sobald ein Profil auf "öffentlich"
+steht (Row-Level-Security schützt nur ganze Zeilen, keine einzelnen Spalten).
+Das ist unkritisch, solange dort noch nichts Sensibles eingetragen wird –
+bevor die Auszahlungsfunktion aber wirklich genutzt wird, sollte das über
+eine eigene Tabelle oder eine eingeschränkte View sauber getrennt werden.

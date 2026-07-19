@@ -1,7 +1,12 @@
+export type GetraenkeVorliebe = "bier" | "cocktail" | "schnaps" | "alkoholfrei";
+
 export type Profile = {
   id: string;
   display_name: string | null;
   payout_email: string | null;
+  avatar_url: string | null;
+  getraenke_vorliebe: GetraenkeVorliebe | null;
+  profil_oeffentlich: boolean;
   created_at: string;
 };
 
