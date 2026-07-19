@@ -97,5 +97,7 @@ export type Bewertung = {
   user_id: string;
   rating: number;
   kommentar: string | null;
+  positive_aspekte: string[];
+  negative_aspekte: string[];
   created_at: string;
 };

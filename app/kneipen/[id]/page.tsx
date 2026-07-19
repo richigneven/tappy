@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import RatingForm from "@/components/RatingForm";
 import RouteButton from "@/components/RouteButton";
+import BeerMugIcon from "@/components/BeerMugIcon";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getServerDictionary } from "@/lib/i18n/server";
@@ -84,14 +85,15 @@ export default async function KneipeDetailPage({
         <RouteButton lat={kneipe.lat} lng={kneipe.lng} />
       </div>
 
-      <p className="mb-6">
+      <p className="mb-6 flex items-center gap-2">
         {durchschnitt ? (
-          <span className="text-brass-400 font-semibold">
-            {durchschnitt} ★
+          <span className="flex items-center gap-1.5 text-brass-400 font-semibold">
+            <BeerMugIcon gefuellt size={18} />
+            {durchschnitt}
           </span>
         ) : (
           <span className="opacity-70">{dict.kneipeDetail.keineBewertungen}</span>
-        )}{" "}
+        )}
         <span className="opacity-70">
           ({ratings.length}{" "}
           {ratings.length === 1
@@ -236,7 +238,12 @@ export default async function KneipeDetailPage({
             kneipeId={kneipe.id}
             bestehendeBewertung={
               eigeneBewertung
-                ? { rating: eigeneBewertung.rating, kommentar: eigeneBewertung.kommentar }
+                ? {
+                    rating: eigeneBewertung.rating,
+                    kommentar: eigeneBewertung.kommentar,
+                    positive_aspekte: eigeneBewertung.positive_aspekte,
+                    negative_aspekte: eigeneBewertung.negative_aspekte,
+                  }
                 : undefined
             }
           />
@@ -270,8 +277,34 @@ export default async function KneipeDetailPage({
                       )}
                       {anzeigeName}
                     </span>
-                    <span className="text-sm">{b.rating} ★</span>
+                    <span className="flex items-center gap-1 text-sm">
+                      <BeerMugIcon gefuellt size={16} />
+                      {b.rating}
+                    </span>
                   </div>
+
+                  {(b.positive_aspekte?.length > 0 ||
+                    b.negative_aspekte?.length > 0) && (
+                    <div className="flex flex-wrap gap-1.5 mb-2">
+                      {(b.positive_aspekte ?? []).map((a: string) => (
+                        <span
+                          key={`p-${a}`}
+                          className="text-xs bg-felt/30 border border-felt text-cream rounded-full px-2 py-0.5"
+                        >
+                          + {a}
+                        </span>
+                      ))}
+                      {(b.negative_aspekte ?? []).map((a: string) => (
+                        <span
+                          key={`n-${a}`}
+                          className="text-xs bg-warn/20 border border-warn text-cream rounded-full px-2 py-0.5"
+                        >
+                          − {a}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
                   {b.kommentar && (
                     <p className="text-sm opacity-90">{b.kommentar}</p>
                   )}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import TappyLogo from "@/components/TappyLogo";
 import { useTranslation } from "@/lib/i18n/LocaleProvider";
 
 export default function NavbarClient({ hasUser }: { hasUser: boolean }) {
@@ -11,11 +12,8 @@ export default function NavbarClient({ hasUser }: { hasUser: boolean }) {
   return (
     <header className="border-b border-bar-700 bg-bar-900">
       <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link
-          href="/"
-          className="font-display font-black text-2xl tracking-tight text-brass-500"
-        >
-          Tappy
+        <Link href="/" className="text-brass-500 hover:text-brass-400 transition-colors">
+          <TappyLogo />
         </Link>
 
         <nav className="flex items-center gap-4 text-sm">
